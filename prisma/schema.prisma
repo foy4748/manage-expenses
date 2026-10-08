@@ -74,3 +74,24 @@ model Verification {
   @@index([identifier])
   @@map("verification")
 }
+
+
+model Item {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  expenses  Expense[]
+
+  @@map("items")
+}
+
+model Expense {
+  id     Int      @id @default(autoincrement())
+  itemId Int
+  item   Item     @relation(fields: [itemId], references: [id])
+  cost   Decimal  @db.Decimal(10, 2)
+  date   DateTime @db.Date
+
+  @@index([itemId])
+  @@index([date])
+  @@map("expenses")
+}
