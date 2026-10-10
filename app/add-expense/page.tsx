@@ -47,7 +47,7 @@ import { ItemModel } from "../generated/prisma/models";
 // ============ ZOD SCHEMA ============
 const formSchema = z.object({
   itemId: z.string().min(1, "Please select an item."),
-  cost: z.coerce
+  cost: z
     .number({ error: "Cost must be a number." })
     .positive("Cost must be greater than 0."),
   date: z.date({ error: "Please pick a date." }),
@@ -55,7 +55,7 @@ const formSchema = z.object({
 
 export default function AddExpenseForm() {
   const [items, setItems] = useState<ItemModel[]>([]);
-  const [loadingItems, setLoadingItems] = useState(true);
+  const [, setLoadingItems] = useState(true);
 
   // Load items
   useEffect(() => {
@@ -67,10 +67,11 @@ export default function AddExpenseForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      itemId: "",
-      cost: 0,
+      itemId: undefined,
+      cost: undefined,
       date: new Date(),
     },
+    mode: "all",
   });
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
@@ -186,7 +187,7 @@ export default function AddExpenseForm() {
                   <FieldLabel>Date</FieldLabel>
 
                   <Popover>
-                    <PopoverTrigger asChild>
+                    <PopoverTrigger>
                       <Button
                         type="button"
                         variant="outline"
@@ -208,7 +209,6 @@ export default function AddExpenseForm() {
                         mode="single"
                         selected={field.value}
                         onSelect={field.onChange}
-                        initialFocus
                       />
                     </PopoverContent>
                   </Popover>

@@ -22,7 +22,7 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { AddAllItems, AddItem } from "@/actions/items/add-item";
+import { AddItem } from "@/actions/items/add-item";
 
 const formSchema = z.object({
   item: z
@@ -101,9 +101,6 @@ export default function AddItemForm() {
           </Button>
           <Button type="submit" form="form-rhf-demo">
             Submit
-          </Button>
-          <Button type="button" onClick={AddAllItems} form="form-rhf-demo">
-            Add All
           </Button>
         </Field>
       </CardFooter>
